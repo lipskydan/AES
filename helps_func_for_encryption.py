@@ -110,12 +110,42 @@ def mul_by_0e(num): return mul_by_02(mul_by_02(mul_by_02(num))) ^ mul_by_02(mul_
 
 
 def key_expansion(key):
-    pass
+    key_symbols = [ord(symbol) for symbol in key]
+
+    if len(key_symbols) < 4 * nk:
+        for i in range(4 * nk - len(key_symbols)):
+            key_symbols.append(0x01)
+
+    key_schedule = [[] for i in range(4)]
+    for r in range(4):
+        for c in range(nk):
+            key_schedule[r].append(key_symbols[r + 4 * c])
+
+    for col in range(nk, nb * (nr + 1)):
+        if col % nk == 0:
+            tmp = [key_schedule[row][col - 1] for row in range(1, 4)]
+            tmp.append(key_schedule[0][col - 1])
+
+            for j in range(len(tmp)):
+                sbox_row = tmp[j] // 0x10
+                sbox_col = tmp[j] % 0x10
+                sbox_elem = sbox[16 * sbox_row + sbox_col]
+                tmp[j] = sbox_elem
+
+            for row in range(4):
+                s = (key_schedule[row][col - 4]) ^ (tmp[row]) ^ (rcon[row][int(col / nk - 1)])
+                key_schedule[row].append(s)
+
+        else:
+            for row in range(4):
+                s = key_schedule[row][col - 4] ^ key_schedule[row][col - 1]
+                key_schedule[row].append(s)
+
+    return key_schedule
 
 
 def add_round_key(state, key_schedule, round=0):
     for col in range(nk):
-        # nb*round is a shift which indicates start of a part of the KeySchedule
         s0 = state[0][col] ^ key_schedule[0][nb * round + col]
         s1 = state[1][col] ^ key_schedule[1][nb * round + col]
         s2 = state[2][col] ^ key_schedule[2][nb * round + col]
