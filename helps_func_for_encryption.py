@@ -37,15 +37,38 @@ def shift_rows(state, inv=False):
     inv == False - encryption (we will use left_shift)
     inv == True - decryption (we will use right_shift)
     """
-    pass
+    count = 1
+
+    if not inv:
+        for i in range(1, nb):
+            state[i] = left_shift(state[i], count)
+            count += 1
+    else:
+        for i in range(1, nb):
+            state[i] = right_shift(state[i], count)
+            count += 1
+
+    return state
 
 
 def left_shift(array, count):
-    pass
+    res = array[:]
+    for i in range(count):
+        temp = res[1:]
+        temp.append(res[0])
+        res[:] = temp[:]
+
+    return res
 
 
 def right_shift(array, count):
-    pass
+    res = array[:]
+    for i in range(count):
+        tmp = res[:-1]
+        tmp.insert(0, res[-1])
+        res[:] = tmp[:]
+
+    return res
 
 
 def mix_columns(state, inv=False):
