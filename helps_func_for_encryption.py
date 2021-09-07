@@ -1,3 +1,5 @@
+from const_tables_and_numbers import nb, nk, nr, sbox, inv_sbox
+
 """
     inv == False - encryption 
     inv == True - decryption
@@ -9,7 +11,25 @@ def sub_bytes(state, inv=False):
     inv == False - encryption (we will use sbox)
     inv == True - decryption (we will use inv_box)
     """
-    pass
+
+    box = sbox if not inv else inv_sbox
+
+    # if not inv:
+    #     box = sbox
+    # else:
+    #     box = inv_sbox
+
+    for i in range(len(state)):
+        for j in range(len(state[i])):
+            row = state[i][j] // 0x10
+            col = state[i][j] % 0x10
+
+            # Our Sbox is a flat array, not a bable. So, we use this trich to find elem:
+            # And DO NOT change list sbox! if you want it to work
+            box_elem = box[16 * row + col]
+            state[i][j] = box_elem
+
+    return state
 
 
 def shift_rows(state, inv=False):
