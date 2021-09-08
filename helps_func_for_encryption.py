@@ -14,18 +14,11 @@ def sub_bytes(state, inv=False):
 
     box = sbox if not inv else inv_sbox
 
-    # if not inv:
-    #     box = sbox
-    # else:
-    #     box = inv_sbox
-
     for i in range(len(state)):
         for j in range(len(state[i])):
             row = state[i][j] // 0x10
             col = state[i][j] % 0x10
 
-            # Our Sbox is a flat array, not a bable. So, we use this trich to find elem:
-            # And DO NOT change list sbox! if you want it to work
             box_elem = box[16 * row + col]
             state[i][j] = box_elem
 
