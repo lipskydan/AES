@@ -1,4 +1,4 @@
-from const_tables_and_numbers import nb, nk, nr, sbox, inv_sbox
+from const_tables_and_numbers import nb, nk, nr, sbox, inv_sbox, rcon
 
 """
     inv == False - encryption 
@@ -74,12 +74,12 @@ def right_shift(array, count):
 def mix_columns(state, inv=False):
     for i in range(nb):
 
-        if not inv:  # encryption
+        if not inv:
             s0 = mul_by_02(state[0][i]) ^ mul_by_03(state[1][i]) ^ state[2][i] ^ state[3][i]
             s1 = state[0][i] ^ mul_by_02(state[1][i]) ^ mul_by_03(state[2][i]) ^ state[3][i]
             s2 = state[0][i] ^ state[1][i] ^ mul_by_02(state[2][i]) ^ mul_by_03(state[3][i])
             s3 = mul_by_03(state[0][i]) ^ state[1][i] ^ state[2][i] ^ mul_by_02(state[3][i])
-        else:  # decryption
+        else:
             s0 = mul_by_0e(state[0][i]) ^ mul_by_0b(state[1][i]) ^ mul_by_0d(state[2][i]) ^ mul_by_09(state[3][i])
             s1 = mul_by_09(state[0][i]) ^ mul_by_0e(state[1][i]) ^ mul_by_0b(state[2][i]) ^ mul_by_0d(state[3][i])
             s2 = mul_by_0d(state[0][i]) ^ mul_by_09(state[1][i]) ^ mul_by_0e(state[2][i]) ^ mul_by_0b(state[3][i])
