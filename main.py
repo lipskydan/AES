@@ -88,8 +88,8 @@ if __name__ == '__main__':
                 for i in range(empty_spaces - 1):
                     temp.append(0)
                 temp.append(1)
-                decrypted_part = aes.encrypt(temp, key)
-                decrypted_data.extend(crypted_part)
+                decrypted_part = aes.decrypt(temp, key)
+                decrypted_data.extend(decrypted_part)
 
         out_path = os.path.join(os.path.dirname(file_path), 'decrypted_' + os.path.basename(file_path))
 
