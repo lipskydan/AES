@@ -1,7 +1,7 @@
 import os
 import time
 
-import aes
+from aes_logic import aes
 
 if __name__ == '__main__':
 

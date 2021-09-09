@@ -1,5 +1,5 @@
 import unittest
-import aes
+from aes_logic import aes
 import os
 
 def t_encrypt(file_path, key):
