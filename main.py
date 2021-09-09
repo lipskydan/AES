@@ -7,8 +7,8 @@ if __name__ == '__main__':
 
     while True:
         print('Press:\n e for encription \n d for decription\nInput choice: ')
-        way = input()
-        if way not in ['e', 'd']:
+        action_name = input()
+        if action_name not in ['e', 'd']:
             print('Action denied')
             continue
         else:
@@ -17,9 +17,9 @@ if __name__ == '__main__':
 
     while True:
         print('Enter name of file with full path')
-        input_path = os.path.abspath(input())
+        file_path = os.path.abspath(input())
 
-        if os.path.isfile(input_path):
+        if os.path.isfile(file_path):
             break
         else:
             print('This is not a file')
@@ -45,10 +45,10 @@ if __name__ == '__main__':
 
     time_before = time.time()
 
-    with open(input_path, 'rb') as f:
+    with open(file_path, 'rb') as f:
         data = f.read()
 
-    if way == 'e':
+    if action_name == 'e':
         crypted_data = []
         temp = []
         for byte in data:
@@ -67,7 +67,7 @@ if __name__ == '__main__':
                 crypted_part = aes.encrypt(temp, key)
                 crypted_data.extend(crypted_part)
 
-        out_path = os.path.join(os.path.dirname(input_path), 'crypted_' + os.path.basename(input_path))
+        out_path = os.path.join(os.path.dirname(file_path), 'crypted_' + os.path.basename(file_path))
 
         with open(out_path, 'xb') as ff:
             ff.write(bytes(crypted_data))
@@ -91,7 +91,7 @@ if __name__ == '__main__':
                 decrypted_part = aes.encrypt(temp, key)
                 decrypted_data.extend(crypted_part)
 
-        out_path = os.path.join(os.path.dirname(input_path), 'decrypted_' + os.path.basename(input_path))
+        out_path = os.path.join(os.path.dirname(file_path), 'decrypted_' + os.path.basename(file_path))
 
         with open(out_path, 'xb') as ff:
             ff.write(bytes(decrypted_data))
