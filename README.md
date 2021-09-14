@@ -5,7 +5,7 @@
 byte array with 4 rows and Nb columns. Each State cell contains a 1 byte value. The array State 
 is filled with input values. A block of 16 bytes is encrypted at a time.
 * Nb is the number of columns (32-bit words) that make up State. For the standard, Nb = 4 is regulated
-* Nk is the key length in 32-bit words. For AES, Nk = 4, 6, 8. We have already decided that we will use Nk = 4
+* Nk is the key length in 32-bit words. For AES, Nk = 4, 6, 8 (I use Nk = 4)
 * Nr is the number of encryption rounds. Depending on the key length, Nr = 10, 12 or 14
 
 ### Encryption / Decryption Part
