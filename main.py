@@ -98,5 +98,5 @@ if __name__ == '__main__':
 
     time_after = time.time()
 
-print('New file here:', out_path, '--', time_after - time_before, ' seconds')
+print('New file here:', out_path, '-- working time is ', time_after - time_before, ' seconds')
 print('If smth wrong check the key you entered')
