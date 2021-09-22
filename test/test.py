@@ -1,6 +1,9 @@
 import unittest
-from aes_logic import aes
+from asyncio import sleep
+
+import aes
 import os
+
 
 def t_encrypt(file_path, key):
     with open(file_path, 'rb') as f:
@@ -25,15 +28,12 @@ def t_encrypt(file_path, key):
             crypted_part = aes.encrypt(temp, key)
             crypted_data.extend(crypted_part)
 
-    out_path = os.path.join(os.path.dirname(file_path), 'encrypted.txt')
-
-    with open(out_path, 'xb') as ff:
-        ff.write(bytes(crypted_data))
+    return  crypted_data
 
 
-def t_decrypted(file_path, key):
-    with open(file_path, 'rb') as f:
-        data = f.read()
+def t_decrypted(data, key):
+    # with open(file_path, 'rb') as f:
+    #     data = f.read()
 
     decrypted_data = []
     temp = []
@@ -53,23 +53,20 @@ def t_decrypted(file_path, key):
             decrypted_part = aes.decrypt(temp, key)
             decrypted_data.extend(decrypted_part)
 
-    out_path = os.path.join(os.path.dirname(file_path), 'decrypted.txt')
-
-    with open(out_path, 'xb') as ff:
-        ff.write(bytes(decrypted_data))
+    return decrypted_data
 
 
 class AES_TEST(unittest.TestCase):
     def test_a(self):
-        t_encrypt(file_path="input.txt", key="steps")
-        t_decrypted(file_path="test/encrypted.txt", key="steps")
-
-        with open("input.txt", 'rb') as f: input = f.read()
-        with open("test/decrypted.txt", 'rb') as f: decrypted = f.read()
-
-        self.assertEqual(decrypted, input)
-        os.remove("test/decrypted.txt")
-        os.remove("test/encrypted.txt")
+        with open("input.txt", 'rb') as f:
+            data = f.read()
+        i = []
+        for byte in data:
+            i.append(byte)
+        e = t_encrypt(file_path="input.txt", key="steps")
+        d = t_decrypted(data=e, key="steps")
+        del d[len(i):len(d)]
+        self.assertEqual(i, d)
 
 
 if __name__ == '__main__':
